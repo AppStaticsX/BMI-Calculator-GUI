@@ -1,1 +1,1 @@
-Simple GUI BMI Calculator using Python
+Simple GUI BMI Calculator Application using Python
