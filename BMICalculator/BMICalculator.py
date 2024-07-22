@@ -1,5 +1,6 @@
 from PIL import Image, ImageTk
 import customtkinter as ctk
+from customtkinter import CTkImage
 
 SMALL_FONT_STYLE = ("Josefin Sans", 16, "bold")
 DEFAULT_FONT_STYLE = ("Josefin Sans", 18, "bold")
@@ -9,10 +10,12 @@ RESULT_FONT_STYLE = ("Jost",48,"bold")
 PURE_DARK = "#000000"
 LABEL_COLOR = "#FFFFFF"
 WARN_COLOR = "#FF0000"
+DEL_BTN_COLOR = "#919191"
 
 ctk.set_appearance_mode("dark")
 
-del_image = ctk.CTkImage(Image.open("ImageResources\del.png"), size=(20,20))
+del_image = CTkImage(Image.open("ImageResources\\del.png"), size=(20,20))
+logo_img = CTkImage(Image.open("ImageResources\\logo.png"), size=(70,70))
 
 
 class BMICalculator:
@@ -23,10 +26,7 @@ class BMICalculator:
         self.window.title("AppStaticsX™-BMICalculator")
         self.window.iconbitmap(r'ImageResources\\icon.ico')
 
-
-        logo = Image.open("ImageResources\logo.png").resize((100,100)) 
-        self.logo_img = ImageTk.PhotoImage(logo)
-        self.logo_label = ctk.CTkLabel(self.window, image=self.logo_img, fg_color="transparent", text="", bg_color="transparent")
+        self.logo_label = ctk.CTkLabel(self.window, image=logo_img, fg_color="transparent", text="", bg_color="transparent")
         self.logo_label.pack(pady=15)
 
         self.frame1 = ctk.CTkFrame(self.window, height=100, width=400, fg_color="transparent")
@@ -38,7 +38,7 @@ class BMICalculator:
         self.entry1 = ctk.CTkEntry(self.frame1, height=30, width=90, fg_color="white", border_width=2, text_color=PURE_DARK, font=ENTRY_FONT_STYLE)
         self.entry1.pack(side="left", padx=10)
 
-        self.c_button1 = ctk.CTkButton(self.frame1, text="", width=24, height=24, image=del_image, fg_color=WARN_COLOR, command=self.clear_val1)
+        self.c_button1 = ctk.CTkButton(self.frame1, text="", width=24, height=24, image=del_image, fg_color=DEL_BTN_COLOR, hover_color=WARN_COLOR, command=self.clear_val1)
         self.c_button1.pack(side="right")
 
         self.frame2 = ctk.CTkFrame(self.window, height=100, width=400, fg_color="transparent")
@@ -50,7 +50,7 @@ class BMICalculator:
         self.entry2 = ctk.CTkEntry(self.frame2, height=30, width=90, fg_color="white", border_width=2, text_color=PURE_DARK, font=ENTRY_FONT_STYLE)
         self.entry2.pack(side="left", padx=10)
 
-        self.c_button2 = ctk.CTkButton(self.frame2, text="", width=24, height=24, image=del_image, fg_color=WARN_COLOR, command=self.clear_val2)
+        self.c_button2 = ctk.CTkButton(self.frame2, text="", width=24, height=24, image=del_image, fg_color=DEL_BTN_COLOR, hover_color=WARN_COLOR, command=self.clear_val2)
         self.c_button2.pack(side="right")
 
         self.frame3 = ctk.CTkFrame(self.window, height=100, width=400, fg_color="transparent")
@@ -117,6 +117,12 @@ class BMICalculator:
     def cal_bmi(self):
         height_input = self.entry1.get()
         weight_input = self.entry2.get()
+
+        if height_input == '0' or weight_input == '0':
+          self.lable4.configure(text="😕", text_color=LABEL_COLOR)
+          self.lable5.configure(text="Please Enter Valid Values", text_color=WARN_COLOR)
+          self.lable3.configure(text="")
+          return
 
         if not height_input or not weight_input:
            self.lable4.configure(text="😕", text_color=LABEL_COLOR)
